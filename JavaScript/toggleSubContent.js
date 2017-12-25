@@ -9,9 +9,9 @@ $(document).ready(function () {
 		if (e.which !== 1) return;
 		
 		if ($(this).hasClass('open')) {
-			$(this).find('.subContent').fadeOut(100);
+			$(this).find('> .subContent').fadeOut(100);
 		} else {
-			$(this).find('.subContent').fadeIn(200);
+			$(this).find('> .subContent').fadeIn(200);
 		}
 		$(this).toggleClass('open');
 	});
