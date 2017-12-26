@@ -1,11 +1,11 @@
 <?php
-//---> update   :   1396.02.19
+//---> update   :   1396.09.19
 
 namespace App\Http\Middleware;
 
 use Closure;
 use Leafo\ScssPhp\Server;
-use Leafo\ScssPhp\Compiler; // composer require "Leafo/ScssPhp"
+use Leafo\ScssPhp\Compiler;
 
 class CompileScss {
 	/**
@@ -19,32 +19,45 @@ class CompileScss {
 	 * ***********************
 	 * version 1.0.0    :   1396.01.09
 	 * version 2.0.0    :   1396.02.19
-	 *		-> conditions for running localy removed; always runs; control other place;
+	 *		-> conditions for running locally removed; always runs; control other place;
 	 *		-> removed "if required" condition;
+	 * version 3.0.0    :   1396.09.19
+	 *      -> env variable used to detect the environment; only runs locally now
 	 */
 	
 	public function handle($request, Closure $next) {
-		/**
-		 * later : take this to a class with namespace;
-		 */
 		
-		// Desktop Master SCSS :
-		$desktop_master_file = '../resources/assets/desktop/scss/master.scss';
-		$desktop_target_file = 'template/desktop/css/master.css';
-		$desktop_root = '../resources/assets/desktop/scss/';
-		
-		$this->compile($desktop_master_file, $desktop_target_file, $desktop_root);
-		
-		/**********************************/
+		if (env('APP_ENV') == 'local') {
+			$this->init();
+		}
 		
 		return $next($request);
+	} //done
+	
+	public function init() {
+		
+		// Admin Master SCSS :
+		$admin_master_file = '../resources/assets/admin/scss/master.scss';
+		$admin_target_file = 'template/admin/css/master.css';
+		$admin_root = '../resources/assets/admin/scss/';
+		$this->compile($admin_master_file, $admin_target_file, $admin_root);
+		
+		//==================================================
+		
+		// Auth Master SCSS :
+		$auth_master_file = '../resources/assets/auth/scss/master.scss';
+		$auth_target_file = 'template/auth/css/styles.css';
+		$auth_root = '../resources/assets/auth/scss/';
+		$this->compile($auth_master_file, $auth_target_file, $auth_root);
+		
+		//==================================================
 	}
 	
 	public function compile($master_file, $target_file, $root) {
 		// compile master Scss :
 		$scss = new Compiler();
 		$scss->setImportPaths($root);
-		$scss->setFormatter('Leafo\ScssPhp\Formatter\Expanded'); // Expanded // Nested // Compressed // Compact // Crunched
+		$scss->setFormatter('Leafo\ScssPhp\Formatter\Compressed'); // Expanded // Nested // Compressed // Compact // Crunched
 		$content = file_get_contents($master_file);
 		$content_compiled = $scss->compile($content);
 		// todo: if compressed -> remove extra spaces near '>' & '+' char;
