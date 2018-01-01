@@ -21,11 +21,16 @@ class MakeJSBundle {
 	 * ***********************
 	 * version 1.0.1    :   1396.01.09
 	 * version 1.0.2    :   1396.05.23
+	 * version 1.1.0    :   1396.10.11  ->  added if env local;
 	 */
 	
 	const path2cache = '../resources/assets/_cache/';
 	
 	public function handle($request, Closure $next) {
+		
+		if (env('APP_ENV') != 'local') {
+			return $next($request);
+		}
 		
 		// Common -> classes.js File
 		$this->init(
