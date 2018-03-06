@@ -1,10 +1,9 @@
 <?php
-//---> update   :   1396.09.19
+//---> update   :   1396.12.15 = 2018.03.06
 
 namespace App\Http\Middleware;
 
 use Closure;
-use Leafo\ScssPhp\Server;
 use Leafo\ScssPhp\Compiler;
 
 class CompileScss {
@@ -23,35 +22,35 @@ class CompileScss {
 	 *		-> removed "if required" condition;
 	 * version 3.0.0    :   1396.09.19
 	 *      -> env variable used to detect the environment; only runs locally now
+	 * version 3.1.0    :   1396.12.15 = 2018.03.06
+	 *      -> added automatic compile ability with array of files;
 	 */
+	
+	private $subjects = [
+		
+		// desktop :
+		[
+			'master'  => '../resources/assets/desktop/scss/master.scss',
+			'target'  => 'template/desktop/css/master.css',
+			'root'    => '../resources/assets/desktop/scss/',
+			'compile' => true
+		],
+		
+	];
 	
 	public function handle($request, Closure $next) {
 		
-		if (env('APP_ENV') == 'local') {
-			$this->init();
+		if (env('APP_ENV') != 'local') return $next($request);
+		
+		foreach ($this->subjects as $index => $subject) {
+			if ($subject['compile'] == true) {
+				$this->compile($subject['master'], $subject['target'], $subject['root']);
+			}
 		}
 		
 		return $next($request);
 	} //done
 	
-	public function init() {
-		
-		// Admin Master SCSS :
-		$admin_master_file = '../resources/assets/admin/scss/master.scss';
-		$admin_target_file = 'template/admin/css/master.css';
-		$admin_root = '../resources/assets/admin/scss/';
-		$this->compile($admin_master_file, $admin_target_file, $admin_root);
-		
-		//==================================================
-		
-		// Auth Master SCSS :
-		$auth_master_file = '../resources/assets/auth/scss/master.scss';
-		$auth_target_file = 'template/auth/css/styles.css';
-		$auth_root = '../resources/assets/auth/scss/';
-		$this->compile($auth_master_file, $auth_target_file, $auth_root);
-		
-		//==================================================
-	}
 	
 	public function compile($master_file, $target_file, $root) {
 		// compile master Scss :
