@@ -1,11 +1,9 @@
 <?php
-//---> Update	:	1396.05.23  -> using without helper variable;
-/*****************************/
-
 
 namespace App\Http\Middleware;
 
 use Closure;
+use App\Helpers\Classes\jsCompress;
 
 class MakeJSBundle {
 	/**
@@ -22,38 +20,53 @@ class MakeJSBundle {
 	 * version 1.0.1    :   1396.01.09
 	 * version 1.0.2    :   1396.05.23
 	 * version 1.1.0    :   1396.10.11  ->  added if env local;
+	 * version 2.0.0    :   1396.12.21 = 2018.03.12  ->  renamed method; added $subjects. (and foreach loop for it)
 	 */
 	
 	const path2cache = '../resources/assets/_cache/';
 	
-	public function handle($request, Closure $next) {
+	private $subjects = [
 		
-		if (env('APP_ENV') != 'local') {
-			return $next($request);
-		}
-		
-		// Common -> classes.js File
-		$this->init(
-			'template/common/js/classes.js',
-			[
+		// Common -> Classes :
+		[
+			'file_target' => 'template/common/js/classes.js',
+			'files' => [
 				'../resources/assets/common/js/class/class_element.js',
 			],
-			0
-		);
+			'compressType' => 0
+		],
+		
+	];
+	
+	public function handle($request, Closure $next) {
+		
+		if (env('APP_ENV') == 'local') {
+			foreach ($this->subjects as $index => $subject) {
+				self::makeBundle($subject['file_target'], $subject['files'], $subject['compressType']);
+			}
+		}
 		
 		return $next($request);
 	} //handle
 	
 	
-	public static function init($file_target, $array_files, $compressType = 0) {
+	public static function makeBundle($file_target, $array_files, $compressType = 0) {
 		
 		// target file must exist already; { to avoid file creation in wrong destinations }
 		
 		/****************************/
 		
-		if (!file_exists($file_target) || count($array_files) == 0) {
+		if (count($array_files) == 0) {
 			return false;
 		}
+		
+		if (!file_exists($file_target)) {
+			return false;
+			//$fp_temp = fopen($file_target, 'w+');
+			//fclose($fp_temp);
+		}
+		
+		
 		
 		/****************************/
 		
@@ -105,12 +118,10 @@ class MakeJSBundle {
 		
 		/****************************/
 		
-		//require_once "../app/helpers/class/jsCompress.php"; // already included with composer;
-		
 		// recompile updated files and write to cache
 		foreach ($files2update as $key => $filename) {
 			$file_content = file_get_contents($filename);
-			$compressed_content = \jsCompress::compress($file_content, $compressType);
+			$compressed_content = jsCompress::compress($file_content, $compressType);
 			self::cache_write($filename, $compressed_content);
 		}
 		
