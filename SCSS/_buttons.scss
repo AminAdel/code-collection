@@ -1,0 +1,76 @@
+//---> Create	:	1397.01.06
+//---> Finish	:	1397.01.06
+//---> Update	:	--
+/*****************************/
+
+.button {
+	text-align: center;
+	color: #fff;
+	border: 0;
+	transition: background-color 250ms;
+	cursor: pointer;
+	
+	&.button_crimson {
+		color: #fff;
+		background-color: crimson;
+		&:hover {
+			background-color: #EB2D53;
+		}
+	}
+	
+	&.button_indigo {
+		color: #fff;
+		background-color: #3F51B5; //500
+		&:hover {
+			background-color: #5C6BC0; //400
+		}
+	}
+	
+	&.button_blue {
+		color: #fff;
+		background-color: map_get($blue, 300);
+		&:hover {
+			background-color: map_get($blue, 200);
+		}
+	}
+	
+	&.button_cyan {
+		color: #fff;
+		background-color: map_get($cyan, 400);
+		&:hover {
+			background-color: map_get($cyan, 300);
+		}
+	}
+	
+	&.button_orange {
+		color: #fff;
+		background-color: map_get($orange, 500);
+		&:hover {
+			background-color: map_get($orange, 300);
+		}
+	}
+	
+	&.button_pink {
+		color: #fff;
+		background-color: map_get($pink, 400);
+		&:hover {
+			background-color: map_get($pink, 300);
+		}
+	}
+	
+	&.button_green {
+		color: #fff;
+		background-color: map_get($green, 500);
+		&:hover {
+			background-color: map_get($green, 300);
+		}
+	}
+	
+	&.button_red {
+		color: #fff;
+		background-color: map_get($red, a200);
+		&:hover {
+			background-color: map_get($red, a100);
+		}
+	}
+}
