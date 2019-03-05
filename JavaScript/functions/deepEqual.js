@@ -1,4 +1,4 @@
-export function deepEquals(x, y) {
+function deepEqual(x, y) {
 	if (x === y) {
 		return true; // if both x and y are null or undefined and exactly the same
 	} else if (!(x instanceof Object) || !(y instanceof Object)) {
@@ -32,4 +32,13 @@ export function deepEquals(x, y) {
 		}
 		return true;
 	}
+}
+
+
+function deepEqual2(x, y) {
+  const ok = Object.keys, tx = typeof x, ty = typeof y;
+  return x && y && tx === 'object' && tx === ty ? (
+    ok(x).length === ok(y).length &&
+      ok(x).every(key => deepEqual(x[key], y[key]))
+  ) : (x === y);
 }
