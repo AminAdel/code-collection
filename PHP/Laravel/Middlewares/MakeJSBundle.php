@@ -66,7 +66,7 @@ class MakeJSBundle {
 			//fclose($fp_temp);
 		}
 		
-		
+		if (!file_exists(self::path2cache)) { mkdir(self::path2cache); }
 		
 		/****************************/
 		
