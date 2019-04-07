@@ -21,6 +21,7 @@ class MakeJSBundle {
 	 * version 1.0.2    :   1396.05.23
 	 * version 1.1.0    :   1396.10.11  ->  added if env local;
 	 * version 2.0.0    :   1396.12.21 = 2018.03.12  ->  renamed method; added $subjects. (and foreach loop for it)
+	 * version 2.0.1    :   1398.01.18 = 2019.04.07  ->  if `path2cache` doesn't exist -> mkdir
 	 */
 	
 	const path2cache = '../resources/assets/_cache/';
