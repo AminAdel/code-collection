@@ -1,4 +1,4 @@
-copyToClipboard(item) {
+function copyToClipboard(item) {
     document.addEventListener('copy', (e: ClipboardEvent) => {
       e.clipboardData.setData('text/plain', (item));
       e.preventDefault();
