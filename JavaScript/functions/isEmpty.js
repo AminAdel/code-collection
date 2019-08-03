@@ -15,7 +15,7 @@ function isEmpty(str) {
 		case null:
 		case false:
 		case typeof this == "undefined": // this line is extra; but i didn't remove
-		case str.trim == "" :
+		case str.trim === "" :
 			return true;
 		default:
 			return false;
