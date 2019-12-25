@@ -1,6 +1,6 @@
 //---> Create	:	1397.01.06
 //---> Finish	:	1397.01.06
-//---> Update	:	--
+//---> Update	:	1398.10.04
 /*****************************/
 
 .button {
@@ -28,49 +28,49 @@
 	
 	&.button_blue {
 		color: #fff;
-		background-color: map_get($blue, 300);
+		background-color: $color_blue_300;
 		&:hover {
-			background-color: map_get($blue, 200);
+			background-color: $color_blue_200;
 		}
 	}
 	
 	&.button_cyan {
 		color: #fff;
-		background-color: map_get($cyan, 400);
+		background-color: $color_cyan_400;
 		&:hover {
-			background-color: map_get($cyan, 300);
+			background-color: $color_cyan_300;
 		}
 	}
 	
 	&.button_orange {
 		color: #fff;
-		background-color: map_get($orange, 500);
+		background-color: $color_orange_500;
 		&:hover {
-			background-color: map_get($orange, 300);
+			background-color: $color_orange_300;
 		}
 	}
 	
 	&.button_pink {
 		color: #fff;
-		background-color: map_get($pink, 400);
+		background-color: $color_pink_400;
 		&:hover {
-			background-color: map_get($pink, 300);
+			background-color: $color_pink_300;
 		}
 	}
 	
 	&.button_green {
 		color: #fff;
-		background-color: map_get($green, 500);
+		background-color: $color_green_500;
 		&:hover {
-			background-color: map_get($green, 300);
+			background-color: $color_green_300;
 		}
 	}
 	
 	&.button_red {
 		color: #fff;
-		background-color: map_get($red, a200);
+		background-color: $color_red_a200;
 		&:hover {
-			background-color: map_get($red, a100);
+			background-color: $color_red_a100;
 		}
 	}
 }
