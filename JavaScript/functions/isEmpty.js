@@ -6,7 +6,7 @@
 /*****************************/
 
 function isEmpty(str) {
-	if (typeof str == "undefined")      return true;
+	if (typeof str === "undefined")     return true;
         if (str === null || str === false)  return true;
         if (str === 0 || str === "0")       return true;
         if (str.trim() === "")              return true;
