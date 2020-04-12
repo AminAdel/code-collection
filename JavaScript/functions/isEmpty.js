@@ -5,19 +5,10 @@
 /*****************************/
 
 function isEmpty(str) {
-	
-	if (typeof str == "undefined") return true;
-	
-	switch (str) {
-		case "":
-		case 0:
-		case "0":
-		case null:
-		case false:
-		case typeof this == "undefined": // this line is extra; but i didn't remove
-		case str.trim === "" :
-			return true;
-		default:
-			return false;
-	}
+	if (typeof str == "undefined")      return true;
+        if (str === null || str === false)  return true;
+        if (str === 0 || str === "0")       return true;
+        if (str.trim() === "")              return true;
+        
+        return false;
 }
