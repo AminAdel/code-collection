@@ -1,10 +1,11 @@
 <?php
-//---> update   :   1399.03.28
+//---> update   :   1400.01.25
 
 namespace App\Http\Middleware;
 
 use Closure;
 use ScssPhp\ScssPhp\Compiler;
+use ScssPhp\ScssPhp\OutputStyle;
 
 class CompileScss {
 	/**
@@ -26,26 +27,20 @@ class CompileScss {
 	 *      -> added automatic compile ability with array of files;
 	 * version 4.0.0    :   1399.03.28 = 2020.06.17
 	 *      -> "leafo/scssphp" changed to "scssphp/scssphp";
+	 * version 4.1.0	:	1400.01.25 = 2021.04.15
+	 *      -> "$scss->setFormatter" changed to "$scss->setOutputStyle"
 	 */
 	
 	private $subjects = [
 		
-		// desktop :
+		// theme_appco :
 		[
-			'master'  => '../resources/assets/desktop/scss/master.scss',
-			'target'  => 'template/desktop/css/master.css',
-			'root'    => '../resources/assets/desktop/scss/',
+			'master'  => '../resources/views/theme_appco/master.scss',
+			'target'  => 'assets/theme_appco/css/theme_appco.css',
+			'root'    => '../resources/views/theme_appco/',
 			'compile' => true
 		],
-		
-		// Admin :
-		[
-			'master'  => '../resources/assets/admin/scss/master.scss',
-			'target'  => 'template/admin/css/master.css',
-			'root'    => '../resources/assets/admin/scss/',
-			'compile' => true
-		],
-		
+	
 	];
 	
 	public function handle($request, Closure $next) {
@@ -65,10 +60,10 @@ class CompileScss {
 		// compile master Scss :
 		$scss = new Compiler();
 		$scss->setImportPaths($root);
-		$scss->setFormatter('ScssPhp\ScssPhp\Formatter\Compressed'); // Expanded // Nested // Compressed // Compact // Crunched
+		$scss->setOutputStyle(OutputStyle::COMPRESSED); // Expanded // Nested // Compressed // Compact // Crunched
+		// $scss->setFormatter('ScssPhp\ScssPhp\Formatter\Compressed'); // Expanded // Nested // Compressed // Compact // Crunched
 		$content = file_get_contents($master_file);
 		$content_compiled = $scss->compile($content);
-		// todo: if compressed -> remove extra spaces near '>' & '+' char;
 		file_put_contents($target_file, $content_compiled);
 	}
 	
