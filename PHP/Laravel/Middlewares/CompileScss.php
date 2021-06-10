@@ -1,5 +1,6 @@
 <?php
 //---> update   :   1400.01.25
+//---> update   :   1400.03.20	->	"scssphp/scssphp" updated to version 1.5.2; so some codes changed accordingly;
 
 namespace App\Http\Middleware;
 
@@ -29,16 +30,17 @@ class CompileScss {
 	 *      -> "leafo/scssphp" changed to "scssphp/scssphp";
 	 * version 4.1.0	:	1400.01.25 = 2021.04.15
 	 *      -> "$scss->setFormatter" changed to "$scss->setOutputStyle"
+	 * version 4.2.0	:	1400.03.20 = 2021.06.10
+	 * 		-> scssphp/scssphp updated to 1.5.2
 	 */
 	
 	private $subjects = [
 		
 		// theme_appco :
 		[
-			'master'  => '../resources/views/theme_appco/master.scss',
-			'target'  => 'assets/theme_appco/css/theme_appco.css',
-			'root'    => '../resources/views/theme_appco/',
-			'compile' => true
+			'master'  => '../resources/scss/master.scss',
+			'target'  => 'assets/boomi/boomi_bundle.min.css',
+			'root'    => '../resources/scss/',
 		],
 	
 	];
@@ -48,9 +50,7 @@ class CompileScss {
 		if (env('APP_ENV') != 'local') return $next($request);
 		
 		foreach ($this->subjects as $index => $subject) {
-			if ($subject['compile'] == true) {
-				$this->compile($subject['master'], $subject['target'], $subject['root']);
-			}
+			$this->compile($subject['master'], $subject['target'], $subject['root']);
 		}
 		
 		return $next($request);
@@ -61,9 +61,8 @@ class CompileScss {
 		$scss = new Compiler();
 		$scss->setImportPaths($root);
 		$scss->setOutputStyle(OutputStyle::COMPRESSED); // Expanded // Nested // Compressed // Compact // Crunched
-		// $scss->setFormatter('ScssPhp\ScssPhp\Formatter\Compressed'); // Expanded // Nested // Compressed // Compact // Crunched
 		$content = file_get_contents($master_file);
-		$content_compiled = $scss->compile($content);
+		$content_compiled = $scss->compileString($content)->getCss();
 		file_put_contents($target_file, $content_compiled);
 	}
 	
