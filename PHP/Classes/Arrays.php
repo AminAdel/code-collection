@@ -33,5 +33,5 @@ class Arrays
 			}
 		}
 		return $array1;
-	} // done : 1400.12.29
+	} // done : 1401.01.05
 }
