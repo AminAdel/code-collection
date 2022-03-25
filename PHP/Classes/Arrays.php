@@ -27,7 +27,7 @@ class Arrays
 				$array1[$index] = $item;
 				continue;
 			}
-			$array1[$index] = self::merge_recursive_distinct2($array1[$index], $item);
+			$array1[$index] = self::merge_recursive_distinct2($array1[$index] ?? [], $item);
 		}
 		return $array1;
 	} // done : 1401.01.05
